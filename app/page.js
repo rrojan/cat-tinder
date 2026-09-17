@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import Card from '../components/Card';
-import MatchOverlay from '../components/MatchOverlay';
-import MatchesSheet from '../components/MatchesSheet';
-import { Flame, Chat, Cross, Star, Heart } from '../components/icons';
+import { useEffect, useState } from "react";
+import Card from "../components/Card";
+import MatchOverlay from "../components/MatchOverlay";
+import MatchesSheet from "../components/MatchesSheet";
+import { Flame, Chat, Cross, Star, Heart } from "../components/icons";
 
 export default function Home() {
   const [cats, setCats] = useState([]);
@@ -16,7 +16,7 @@ export default function Home() {
 
   async function load() {
     setLoading(true);
-    const response = await fetch('/api/cats');
+    const response = await fetch("/api/cats");
     setCats(await response.json());
     setLoading(false);
   }
@@ -31,9 +31,9 @@ export default function Home() {
     setLeaving({ id: cat.id, direction });
 
     // Ask the server while the card flies away.
-    const asking = fetch('/api/swipe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const asking = fetch("/api/swipe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id: cat.id, direction }),
     }).then((response) => response.json());
 
@@ -50,12 +50,12 @@ export default function Home() {
   useEffect(() => {
     function onKey(event) {
       if (match || sheetOpen) return;
-      if (event.key === 'ArrowLeft') swipe('left');
-      if (event.key === 'ArrowRight') swipe('right');
-      if (event.key === 'ArrowUp') swipe('super');
+      if (event.key === "ArrowLeft") swipe("left");
+      if (event.key === "ArrowRight") swipe("right");
+      if (event.key === "ArrowUp") swipe("super");
     }
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
   });
 
   return (
@@ -63,11 +63,18 @@ export default function Home() {
       <header className="top">
         <div className="logo">
           <Flame />
-          <span>cat tinder</span>
+          <span>cat tinderrrrr</span>
         </div>
-        <button type="button" className="matches-btn" onClick={() => setSheetOpen(true)} aria-label="Your matches">
+        <button
+          type="button"
+          className="matches-btn"
+          onClick={() => setSheetOpen(true)}
+          aria-label="Your matches"
+        >
           <Chat />
-          {matches.length > 0 && <span className="badge">{matches.length}</span>}
+          {matches.length > 0 && (
+            <span className="badge">{matches.length}</span>
+          )}
         </button>
       </header>
 
@@ -92,18 +99,37 @@ export default function Home() {
       </section>
 
       <nav className="actions" aria-label="Swipe">
-        <button type="button" className="action nope" onClick={() => swipe('left')} aria-label="Nope">
+        <button
+          type="button"
+          className="action nope"
+          onClick={() => swipe("left")}
+          aria-label="Nope"
+        >
           <Cross />
         </button>
-        <button type="button" className="action super" onClick={() => swipe('super')} aria-label="Super like">
+        <button
+          type="button"
+          className="action super"
+          onClick={() => swipe("super")}
+          aria-label="Super like"
+        >
           <Star />
         </button>
-        <button type="button" className="action like" onClick={() => swipe('right')} aria-label="Like">
+        <button
+          type="button"
+          className="action like"
+          onClick={() => swipe("right")}
+          aria-label="Like"
+        >
           <Heart />
         </button>
       </nav>
 
-      <MatchesSheet open={sheetOpen} matches={matches} onClose={() => setSheetOpen(false)} />
+      <MatchesSheet
+        open={sheetOpen}
+        matches={matches}
+        onClose={() => setSheetOpen(false)}
+      />
       <MatchOverlay cat={match} onClose={() => setMatch(null)} />
     </div>
   );
